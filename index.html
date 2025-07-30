@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urbanivore – Cartographier les arbres comestibles</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #fdfaf3;
+      --accent-color: #6b8e23;
+      --accent-dark: #4e6c13;
+      --text-color: #3e3e3e;
+      --font-main: 'Inter', sans-serif;
+      --font-alt: 'Lora', serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      background: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 0rem 1rem;
+    }
+
+    header.hero {
+      background: var(--accent-color);
+      color: white;
+      text-align: center;
+      padding: 5rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero .subtitle {
+      font-size: 1.5rem;
+      font-style: italic;
+    }
+
+    .hero .description {
+      margin: 1.5rem 0;
+      font-family: var(--font-alt);
+    }
+
+    .btn {
+      background: white;
+      color: var(--accent-color);
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      display: inline-block;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      background: #f2f2f2;
+    }
+
+    section {
+      padding: 3rem 0;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      color: var(--accent-dark);
+      margin-bottom: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border-left: 6px solid var(--accent-color);
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .recette-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .recette-list li::before {
+      content: "🌿 ";
+    }
+
+    blockquote {
+      font-family: var(--font-alt);
+      font-size: 1.3rem;
+      color: #555;
+      border-left: 4px solid var(--accent-color);
+      padding-left: 1rem;
+      margin: 2rem 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    form input, form textarea {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    form button {
+      background: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    form button:hover {
+      background: var(--accent-dark);
+    }
+
+    footer {
+      background: #f2f2f2;
+      padding: 2rem 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    footer nav a {
+      margin: 0 0.5rem;
+      font-weight: 500;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      section h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    body::before {
+  content: "";
+  background-image: url('data:image/svg+xml;utf8,<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><path d="M150 0C75 100 75 200 0 300h300V0H150z" fill="%236b8e23" fill-opacity="0.05"/></svg>');
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: cover;
+  z-index: -1;
+}
+
+section::after {
+  content: "";
+  display: block;
+  height: 40px;
+  background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0 Q50 40 100 0 T200 0 T300 0 T400 0 T500 0 T600 0 T700 0" stroke="%236b8e23" stroke-width="2" fill="transparent"/></svg>');
+  opacity: 0.1;
+  background-repeat: repeat-x;
+  background-position: bottom;
+}
+
+footer::before {
+  content: "";
+  display: block;
+  height: 60px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><circle cx="10" cy="10" r="2" fill="%236b8e23" opacity="0.15"/><circle cx="30" cy="10" r="2" fill="%236b8e23" opacity="0.15"/><circle cx="50" cy="10" r="2" fill="%236b8e23" opacity="0.15"/><circle cx="70" cy="10" r="2" fill="%236b8e23" opacity="0.15"/><circle cx="90" cy="10" r="2" fill="%236b8e23" opacity="0.15"/></svg>');
+  background-repeat: repeat-x;
+}
+
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Urbanivore</h1>
+      <p class="subtitle">Cartographier les arbres comestibles de nos villes</p>
+      <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des centaines d’espèces d’arbres pour des milliers de recettes à portée de main.</p>
+      <a href="map.html?toulouse" class="btn">Toulouse</a>
+      <a href="map.html?paris" class="btn">Paris</a>
+      <a href="map.html?bordeaux" class="btn">Bordeaux</a>
+    </div>
+  </header>
+
+  <section class="intro">
+    <div class="container">
+      <h2>Introduction du projet</h2>
+      <p><strong>Urbanivore</strong> est un projet visant à révéler le potentiel nourricier de nos métropoles en cartographiant les arbres comestibles accessibles dans l’espace public. Grâce aux données en Open Data et à une base de plus de 100 recettes associées à chaque essence, chacun peut réapprendre à cueillir, transformer, goûter… et mieux habiter sa ville.</p>
+    </div>
+  </section>
+
+
+  <section id="cartes" class="maps">
+    <div class="container">
+      <h2>Cartes interactives</h2>
+      <div class="grid">
+        <div class="card">Paris – <a href="map.html?paris" target="_blank">Voir la carte</a></div>
+        <div class="card">Lyon – <a href="map.html?lyon" target="_blank">Voir la carte</a></div>
+        <div class="card">Bordeaux – <a href="map.html?bordeaux" target="_blank">Voir la carte</a></div>
+        <div class="card">Grenoble – <a href="map.html?grenoble" target="_blank">Voir la carte</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="recettes">
+    <div class="container">
+      <h2>Des recettes et des usages</h2>
+      <p>De la confiture de sureau à l’infusion de tilleul, plus de 100 recettes ont été recensées pour valoriser les ressources végétales urbaines.</p>
+      <div class="card">Recettes – <a href="recettes.html" target="_blank">Voir toutes les recettes</a></div>
+    </div>
+  </section>
+
+  <section class="vision">
+    <div class="container">
+      <h2>Pourquoi ce projet ?</h2>
+      <p>Urbanivore est né d’une conviction simple : nos villes regorgent de ressources oubliées. Arbres fruitiers, plantes comestibles, essences médicinales… Trop souvent ignorés, ces éléments du paysage urbain peuvent pourtant nourrir, soigner, relier.</p>
+      <p>Ce projet cartographique vise à réactiver des savoirs populaires en voie de disparition, à encourager une réappropriation collective des usages comestibles de la nature en ville. Cueillir, transformer, partager : autant de gestes simples qui renouent avec une écologie du quotidien et une autonomie alimentaire à l’échelle locale.</p>
+      <p>En valorisant ces communs végétaux, Urbanivore questionne aussi la place du vivant dans l’espace urbain : quels arbres plantons-nous, pour qui, pourquoi ?<br>
+      Il invite à repenser nos rapports à la ville à travers une biodiversité cultivée, une saisonnalité respectée, et des usages plus sensibles, plus durables, plus libres de l’espace public.</p>
+      <blockquote>« On ne connaît bien que les choses qu’on apprivoise. » — Antoine de Saint-Exupéry</blockquote>
+    </div>
+  </section>
+
+  <section class="methodo">
+    <div class="container">
+      <h2>Méthodologie et Open Data</h2>
+      <p>Les cartes ont été créées à partir de données Open Data fournies par les métropoles et collectivités. Le traitement a été réalisé en JavaScript (Leaflet, MarkerCluster), et le code source est librement accessible.</p>
+      <ul>
+        <li><a href="https://github.com/gael-mgn/Urbanivore" target="_blank">Code source (GitHub)</a></li>
+        <li><a href="#">Données utilisées</a></li>
+        <li><a href="#">Documentation technique</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="equipe">
+    <div class="container">
+      <h2>À propos</h2>
+      <p>Je m'appelle <a href="https://www.linkedin.com/in/gael-maignan">Gaël Maignan</a>, étudiant à l'École des Ingénieurs de la Ville de Paris, passionné par les formes sensibles de réappropriation de la ville. Je développe <strong>Urbanivore</strong> en lien avec mes engagements pour une ville plus comestible, plus partagée, plus durable.</p>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="container">
+      <h2>Contribuer / Me contacter</h2>
+      <p>Pour toute question ou suggestion, n'hésitez pas à me contacter à l'adresse : <a href="mailto:contact@gael-maignan.fr">contact@gael-maignan.fr</a></p>
+      <form>
+        <input type="text" placeholder="Votre nom" required />
+        <input type="email" placeholder="Votre email" required />
+        <textarea placeholder="Votre message ou contribution…"></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <nav>
+        <a href="#cartes">Cartes</a>
+        <a href="#">Recettes</a>
+        <a href="#">Mentions légales</a>
+        <a href="https://www.openstreetmap.org/">OpenStreetMap</a>
+        <a href="#">Réseaux sociaux</a>
+      </nav>
+      <p>© 2025 Urbanivore – Projet étudiant EIVP</p>
+    </div>
+  </footer>
+
+</body>
+</html>
