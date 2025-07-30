@@ -3,8 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Urbanivore – Cartographier les arbres comestibles</title>
+  <title>Urbanivore – Cartographie des arbres comestibles</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@1,600&display=swap" rel="stylesheet">
+
+  <meta name="robots" content="index, follow">
+
+  <meta name="description" content="Urbanivore est un projet visant à révéler le potentiel nourricier de nos métropoles en cartographiant les arbres comestibles accessibles dans l’espace public.">
+  <meta name="keywords" content="urbanivore, carte, arbres comestibles, arbres, cartographie, Gaël Maignan, gael maignan, auteur, Urbanisme, EIVP">
+
+  <meta property="og:image" content="image.png">
+
+  <link rel="icon" href="logo.png" type="image/png">
+
   <style>
     :root {
       --bg-color: #fdfaf3;
@@ -222,11 +232,11 @@ footer::before {
   <header class="hero">
     <div class="container">
       <h1>Urbanivore</h1>
-      <p class="subtitle">Cartographier les arbres comestibles de nos villes</p>
-      <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des centaines d’espèces d’arbres pour des milliers de recettes à portée de main.</p>
-      <a href="map.html?toulouse" class="btn">Toulouse</a>
-      <a href="map.html?paris" class="btn">Paris</a>
-      <a href="map.html?bordeaux" class="btn">Bordeaux</a>
+      <p class="subtitle">Cartographie des arbres comestibles de nos villes</p>
+      <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
+      <a href="map.html?toulouse" class="btn" target="_blank">Toulouse</a>
+      <a href="map.html?paris" class="btn" target="_blank">Paris</a>
+      <a href="map.html?bordeaux" class="btn" target="_blank">Bordeaux</a>
     </div>
   </header>
 
@@ -278,6 +288,18 @@ footer::before {
         <li><a href="#">Données utilisées</a></li>
         <li><a href="#">Documentation technique</a></li>
       </ul>
+
+      <h3>Sources</h3>
+      <ul>
+        <li>Paris : <a href="https://opendata.paris.fr/explore/dataset/les-arbres/export/?disjunctive.espece&disjunctive.typeemplacement&disjunctive.arrondissement&disjunctive.genre&disjunctive.libellefrancais&disjunctive.varieteoucultivar&disjunctive.stadedeveloppement&disjunctive.remarquable" target="_blank">Arbres - Paris Data - Mairie de Paris</a></li>
+        <li>Toulouse : <a href="" target="_blank">Arbres urbains - Open Data Toulouse Métropole</a></li>
+        <!--<li>Rennes : <a href="https://data.rennesmetropole.fr/explore/dataset/arbre/" target="_blank">Arbres dans Rennes Métropole - Open Data Rennes</a></li>
+        <li> : <a href="" target="_blank"></a></li>
+        <li> : <a href="" target="_blank"></a></li>
+        <li> : <a href="" target="_blank"></a></li>
+        <li> : <a href="" target="_blank"></a></li>
+        <li> : <a href="" target="_blank"></a></li>-->
+      </ul>
     </div>
   </section>
 
@@ -305,10 +327,9 @@ footer::before {
     <div class="container">
       <nav>
         <a href="#cartes">Cartes</a>
-        <a href="#">Recettes</a>
+        <a href="recettes.html">Recettes</a>
         <a href="#">Mentions légales</a>
         <a href="https://www.openstreetmap.org/">OpenStreetMap</a>
-        <a href="#">Réseaux sociaux</a>
       </nav>
       <p>© 2025 Urbanivore – Projet étudiant EIVP</p>
     </div>
