@@ -31,14 +31,14 @@ const villes = {
   }
 };
 
+const queryString = window.location.search; // Ex: "?lyon"
+let ville = queryString && queryString !== "?" ? queryString.substring(1) : "";
 
-
-
-
-const queryString = window.location.search; // Ex: "?name=John&age=30"
-const ville = queryString.substring(1); 
-console.log(ville);
-const root = "https://gael-mgn.github.io/divers/data/"+ville+".geojson";
+// Vérifie si la ville est connue, sinon remplace par "paris"
+if (!villes.hasOwnProperty(ville)) {
+  ville = "paris";
+}
+const root = "https://urbanivore.fr/data/"+ville+".geojson";
 
 
 // Génère une couleur unique et stable à partir d'une chaîne (nom d'espèce)
