@@ -14,6 +14,17 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
+  <style>
+    :root {
+      --bg-color: #fdfaf3;
+      --accent-color: #6b8e23;
+      --accent-dark: #4e6c13;
+      --text-color: #3e3e3e;
+      --font-main: 'Inter', sans-serif;
+      --font-alt: 'Lora', serif;
+    }
+  </style>
+
   <meta property="og:image" content="https://urbanivore.fr/img/map.png">
 
   <!-- Polices & styles globaux -->
@@ -628,6 +639,66 @@
 </style>
 
 
+
+
+
+
+<style>
+  /* Couleurs personnalisées pour les clusters */
+
+.marker-cluster-small, .marker-cluster-medium, .marker-cluster-large {
+  background-color: #a3d977 !important;
+  border: 2px solid #6ca836 !important;
+  color: white;
+}
+
+
+.marker-cluster div {
+  background-color: inherit !important;
+
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+/*
+
+
+.marker-cluster-small {
+  background-color: #a3d977 !important;
+  border: 2px solid #6ca836 !important;
+  color: white;
+}
+
+.marker-cluster-medium {
+  background-color: #f4c542 !important;
+  border: 2px solid #e89e00 !important;
+  color: white;
+}
+
+.marker-cluster-large {
+  background-color: #f16c6c !important;
+  border: 2px solid #c0392b !important;
+  color: white;
+}
+
+
+.marker-cluster div {
+  background-color: inherit !important;
+
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}*/
+
+</style>
+
+
   <main>
     <div class="container">
       <button id="toggleSidebar">☰ Filtres</button>
@@ -665,14 +736,15 @@
 
   <!-- Bouton Help flottant -->
 <!-- Bouton Help amélioré -->
-<button id="helpBtn" title="Aide" style="
-  
-">
+<button id="helpBtn" title="Aide">
+  <!-- Bouton Plein Écran -->
+
+
 <style>
   #helpBtn {
     position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 10px;
+  right: 10px;
    background: linear-gradient(135deg, #34a853, #0b8457);
   color: white;
   border: none;
@@ -698,12 +770,64 @@
 #helpBtn:active {
   transform: scale(0.98);
 }
+
 </style>
   <svg xmlns="http://www.w3.org/2000/svg" fill="white" width="18" height="18" viewBox="0 0 24 24">
     <path d="M12 2C6.486 2 2 6.487 2 12s4.486 10 10 10 10-4.487 10-10S17.514 2 12 2zm.75 17h-1.5v-1.5h1.5V19zm1.477-7.195-.89.918c-.436.45-.586.807-.586 1.277V15h-1.5v-.667c0-.726.235-1.303.727-1.82l1.058-1.097c.396-.412.553-.786.553-1.27 0-.967-.784-1.729-1.75-1.729s-1.75.762-1.75 1.729H9c0-1.79 1.458-3.229 3.25-3.229S15.5 9.01 15.5 10.8c0 .743-.241 1.323-.723 1.805z"/>
   </svg>
   Aide
 </button>
+
+<button id="fullscreenBtn" title="Mode plein écran">
+  <svg id="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" fill="white" width="18" height="18" viewBox="0 0 24 24">
+      <path d="M6 16h2v2h2v2H6v-4zm0-8h4v2H8v2H6V8zm12 8v4h-4v-2h2v-2h2zm0-8v4h-2V10h-2V8h4z"/>
+    </svg>
+</button>
+
+<style>
+  #fullscreenBtn {
+  position: fixed;
+  bottom: 10px; /* juste au-dessus du bouton aide */
+  right: 105px;
+  background: linear-gradient(135deg, #34a853, #0b8457);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 12px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  z-index: 1200;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+}
+#fullscreenBtn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(0, 128, 0, 0.3);
+  background: linear-gradient(135deg, #2e9d45, #067c4f);
+}
+#fullscreenBtn:active {
+  transform: scale(0.98);
+}
+
+</style>
+<script>
+  document.getElementById('fullscreenBtn').addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      document.getElementById('fullscreen-icon').innerHTML = '<path d="M6 16h2v2h2v2H6v-4zm0-8h4v2H8v2H6V8zm12 8v4h-4v-2h2v-2h2zm0-8v4h-2V10h-2V8h4z"/>';
+    } else {
+      document.exitFullscreen();
+      document.getElementById('fullscreen-icon').innerHTML = '<path d="M7 14H5v5h5v-2H7v-3zm0-4h2V7h3V5H7v5zm10 4h-2v3h-3v2h5v-5zm-2-4h2V5h-5v2h3v3z"/>';
+    }
+  });
+</script>
+
+</script>
 
 <!-- Pop-up d'aide -->
 <div id="helpPopup">

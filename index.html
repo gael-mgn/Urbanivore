@@ -237,9 +237,12 @@ footer::before {
       <h1>Urbanivore</h1>
       <p class="subtitle">Cartographie des arbres comestibles de nos villes</p>
       <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
+
+      <a href="#map" class="btn">Découvrir la carte</a>
+      <!--
       <a href="map.html?toulouse" class="btn" target="_blank">Toulouse</a>
       <a href="map.html?paris" class="btn" target="_blank">Paris</a>
-      <a href="map.html?bordeaux" class="btn" target="_blank">Bordeaux</a>
+      <a href="map.html?bordeaux" class="btn" target="_blank">Bordeaux</a>-->
     </div>
   </header>
 
@@ -267,8 +270,11 @@ footer::before {
 <style>
   .container iframe {
     width: 100%;
-    height: 65vh;
+    height: 70vh;
+    margin-top: 10px;
     border: none;
+    border: solid var(--accent-dark); 2px;
+    border-radius: 12px;
   }
 
   .city-buttons {
@@ -388,6 +394,17 @@ footer::before {
       </form>
     </div>
   </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const bouton = document.getElementById("scrollButton");
+  const sectionCible = document.getElementById("contact");
+
+  bouton.addEventListener("click", () => {
+    sectionCible.scrollIntoView({ behavior: "smooth" });
+  });
+});
+  </script>
 
   <footer>
     <div class="container">

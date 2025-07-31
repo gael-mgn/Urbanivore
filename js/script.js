@@ -112,7 +112,7 @@ let enableClustering = window.innerWidth < 768 ? true : true;
 const allMarkers = [];
 let geoJsonData = null;
 const markers = enableClustering
-  ? L.markerClusterGroup({ disableClusteringAtZoom: 15, maxClusterRadius: 50 })
+  ? L.markerClusterGroup({ disableClusteringAtZoom: 15, maxClusterRadius: 50, spiderfyOnMaxZoom: false, showCoverageOnHover: false })
   : L.layerGroup();
 
 if (window !== window.parent) {
@@ -130,12 +130,6 @@ fetch(root)
   .then(response => response.json())
   .then(data => {
     geoJsonData = data;
-
-    data.features.forEach(f => {
-      if (f.properties.libellefrancais === "Aubepine") {
-        f.properties.libellefrancais = "Aubépine";
-      }
-    });
 
     // Compter les occurrences d'espèces
     const especeCounts = {};
