@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', function() {
+
 const villes = {
   lyon: {
     nom: "lyon",
@@ -113,6 +115,9 @@ const markers = enableClustering
   ? L.markerClusterGroup({ disableClusteringAtZoom: 15, maxClusterRadius: 50 })
   : L.layerGroup();
 
+  // Afficher le loader
+document.getElementById("loading-screen").style.display = "flex";
+
 fetch(root)
   .then(response => response.json())
   .then(data => {
@@ -157,10 +162,10 @@ fetch(root)
         input.addEventListener("change", updateMap);
       });
 
-
-
-
     updateMap(); // Premier affichage
+
+    // Masquer le loader une fois que tout est prêt
+    document.getElementById("loading-screen").style.display = "none";
   })
   .catch(error => console.error("Erreur lors du chargement du GeoJSON :", error));
 
@@ -317,4 +322,5 @@ document.getElementById("address-input").addEventListener("keydown", function (e
     const address = document.getElementById("address-input").value;
     goToAddress(address, villes[ville].region);
   }
+});
 });
