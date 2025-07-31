@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gaël Maignan – Urbanisme Sensible</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style/main.css">
+
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/png"/>
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link rel="icon" sizes="32x32" href="images/favicon-32.png" type="image/png">
+  <link rel="icon" sizes="96x96" href="images/favicon-96.png" type="image/png">
+
+  <style>
+
+.hero {
+  position: relative;
+  padding: 7rem 2rem 4rem;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto;
+  animation: fadeIn 1.2s ease-out both;
+  z-index: 1;
+}
+
+/* Image de fond (contenue proprement) */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  background-image: url('https://gael-maignan-photographe.fr/series/ce%20que%20la%20ville%20murmure/images/3.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -2;
+}
+
+/* Filtre blanc qui dépasse en bas */
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  height: calc(100% + 1px);
+  background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 200%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  color: #000;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  color: #555;
+  font-weight: 300;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+
+
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 2.3rem;
+  }
+}
+
+
+</style>
+
+
+
+</head>
+<body>
+<!--
+  <header>
+    <div class="logo"><a href="index.html" style="text-decoration:none; color:inherit;">Gaël Maignan</a></div>
+    <nav>
+      <a href="#projets">Projets</a>
+      <a href="contact.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>-->
+
+  <header>
+  <div class="logo">
+    <a href="index.html" style="text-decoration:none; color:inherit;">Gaël Maignan</a>
+  </div>
+
+  <button class="menu-toggle" aria-label="Menu">
+    &#9776;
+  </button>
+
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="art.html">Art</a>
+    <a href="#">Urbanisme</a>
+    <a href="contact.html">À propos / Contact</a>
+  </nav>
+  </header>
+
+  <script>
+  const toggle = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('nav');
+
+  toggle.addEventListener('click', () => {
+    nav.classList.toggle('active');
+  });
+  </script>
+
+  <main>
+  <section class="hero">
+    <h1>Urbanisme Sensible</h1>
+    <!--<p></p>-->
+  </section>
+
+  <!-- Nouvelle section de présentation -->
+<section class="presentation">
+  <style>
+    .presentation {
+      max-width: 1000px;
+    }
+  </style>
+    <div class="presentation-text">
+      <p>Je conçois l’urbanisme comme un art d’écouter le territoire.<br>
+Au-delà des plans et des normes, il s’agit d’appréhender les villes comme des lieux vécus, porteurs de mémoire, de récits, de tensions et d’émotions.</p>
+<p>
+Ma démarche croise rigueur d’analyse et subjectivité assumée. J’élabore des diagnostics sensibles, des inventaires poétiques, des cartographies habitées. Je documente le patrimoine en péril, les lieux oubliés, les usages silencieux. Je crois à un urbanisme qui observe avant d’intervenir, qui compose avec le vivant, qui donne la parole aux habitants.</p>
+<p>Entre les lignes de la ville, j’essaie de lire ce qui résiste, ce qui rêve encore.</p>
+
+      <ul>
+        <li><a class="lien" href="https://urbanivore.fr/" target="_blank">Urbanivore – Cartographie des arbres comestibles à paris</a></li>
+        <li><a class="lien" href="https://gael-mgn.github.io/Luttece/" target="_blank">Luttece – Cartographie sensible des luttes parisiennes</a></li>
+        <li><a class="lien" href="https://gael-maignan-photographe.fr/series/belleville%20QPV/belleville%20QPV.html" target="_blank">Série Photographique "<span class="italic">Belleville QPV – Quartier Priorisant la Vie</span>"</a></li>
+      </ul>
+    </div>
+</section>
+
+
+
+
+</main>
+
+
+  <footer>
+    © 2025 Gaël Maignan – Tous droits réservés
+  </footer>
+
+</body>
+</html>
