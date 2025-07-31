@@ -250,7 +250,70 @@ footer::before {
     </div>
   </section>
 
+ <section id="map">
+  <div class="container">
+    <h2>Carte interactive</h2>
 
+    <div class="city-buttons">
+      <button class="city-btn active" onclick="setCity('paris', this)">Paris</button>
+      <button class="city-btn" onclick="setCity('bordeaux', this)">Bordeaux</button>
+      <button class="city-btn" onclick="setCity('toulouse', this)">Toulouse</button>
+    </div>
+
+    <iframe id="cityMap" src="map.html?paris"></iframe>
+  </div>
+</section>
+
+<style>
+  .container iframe {
+    width: 100%;
+    height: 65vh;
+    border: none;
+  }
+
+  .city-buttons {
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .city-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 999px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+
+  .city-btn:hover {
+    background-color: var(--accent-dark);
+  }
+
+  .city-btn.active {
+   background-color: #1b5e20;
+  }
+</style>
+
+<script>
+  function setCity(city, button) {
+    const iframe = document.getElementById('cityMap');
+    iframe.src = `map.html?${city}`;
+
+    // Retirer la classe 'active' de tous les boutons
+    const buttons = document.querySelectorAll('.city-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    // Ajouter 'active' au bouton cliqué
+    button.classList.add('active');
+  }
+</script>
+
+
+  <!--
   <section id="cartes" class="maps">
     <div class="container">
       <h2>Cartes interactives</h2>
@@ -261,7 +324,7 @@ footer::before {
         <div class="card">Grenoble – <a href="map.html?grenoble" target="_blank">Voir la carte</a></div>
       </div>
     </div>
-  </section>
+  </section>-->
 
   <section class="recettes">
     <div class="container">

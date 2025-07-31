@@ -41,6 +41,15 @@ if (!villes.hasOwnProperty(ville)) {
 const root = "https://urbanivore.fr/data/"+ville+".geojson";
 
 
+if (window !== window.parent) {
+  console.log("La page est affichée dans une iframe.");
+  document.querySelector('header').style.display = 'none';
+  document.querySelector('#search-container').style.top = '10px';
+  document.querySelector('main').style.height = '100vh';
+}
+
+
+
 // Génère une couleur unique et stable à partir d'une chaîne (nom d'espèce)
 function getColorFromString(str) {
   let hash = 0;
