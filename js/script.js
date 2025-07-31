@@ -115,9 +115,6 @@ const markers = enableClustering
   ? L.markerClusterGroup({ disableClusteringAtZoom: 15, maxClusterRadius: 50 })
   : L.layerGroup();
 
-  // Afficher le loader
-document.getElementById("loading-screen").style.display = "flex";
-
 fetch(root)
   .then(response => response.json())
   .then(data => {
@@ -162,14 +159,19 @@ fetch(root)
         input.addEventListener("change", updateMap);
       });
 
-    updateMap(); // Premier affichage
+    updateMap(() => {
+      const loadingScreen = document.getElementById("loading-screen");
+      loadingScreen.classList.add("hidden");
 
-    // Masquer le loader une fois que tout est prêt
-    document.getElementById("loading-screen").style.display = "none";
+      // Retire complètement du DOM après la transition
+      setTimeout(() => {
+        loadingScreen.style.display = "none";
+      }, 600); // un peu plus que 0.5s pour s’assurer que l’effet est terminé
+    });
   })
   .catch(error => console.error("Erreur lors du chargement du GeoJSON :", error));
 
-const updateMap = debounce(() => {
+const updateMap = debounce((onComplete) => {
   markers.clearLayers();
 
   const selectedEsp = new Set(
@@ -242,7 +244,12 @@ const updateMap = debounce(() => {
 
   markers.addLayer(geoJsonLayer);
   map.addLayer(markers);
+
+  if (typeof onComplete === "function") {
+    setTimeout(onComplete, 100); // Attendre un petit délai pour garantir l'affichage
+  }
 }, 200);
+
 
 // Bouton toggle du menu
 document.getElementById("toggleSidebar").addEventListener("click", function () {
