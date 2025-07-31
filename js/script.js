@@ -40,7 +40,7 @@ let ville = queryString && queryString !== "?" ? queryString.substring(1) : "";
 if (!villes.hasOwnProperty(ville)) {
   ville = "paris";
 }
-const root = "https://urbanivore.fr/data/"+ville+".geojson";
+const root = "https://urbanivore.fr/data/" + ville + ".geojson";
 
 
 if (window !== window.parent) {
