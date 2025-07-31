@@ -238,7 +238,46 @@ footer::before {
       <p class="subtitle">Cartographie des arbres comestibles de nos villes</p>
       <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
 
-      <a href="#map" class="btn">Découvrir la carte</a>
+      <a  id="scrollButton" href="#map" class="btn">Découvrir la carte</a>
+
+<script>
+function scrollToElement(targetId, duration = 800) {
+  const target = document.getElementById(targetId);
+  if (!target) return;
+
+  const start = window.scrollY || window.pageYOffset;
+  const end = target.getBoundingClientRect().top + start;
+  const distance = end - start;
+
+  let startTime = null;
+
+  // Fonction easeInOutQuart : démarre doucement, accélère, puis ralentit doucement
+  const easeInOutQuart = (t) =>
+    t < 0.5
+      ? 8 * t * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 4) / 2;
+
+  function animationStep(currentTime) {
+    if (!startTime) startTime = currentTime;
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easedProgress = easeInOutQuart(progress);
+
+    window.scrollTo(0, start + distance * easedProgress);
+
+    if (elapsed < duration) {
+      requestAnimationFrame(animationStep);
+    }
+  }
+
+  requestAnimationFrame(animationStep);
+}
+
+document.getElementById("scrollButton").addEventListener("click", () => {
+  scrollToElement("map", 1000); // durée personnalisable
+});
+</script>
+
       <!--
       <a href="map.html?toulouse" class="btn" target="_blank">Toulouse</a>
       <a href="map.html?paris" class="btn" target="_blank">Paris</a>
@@ -263,7 +302,28 @@ footer::before {
       <button class="city-btn" onclick="setCity('toulouse', this)">Toulouse</button>
     </div>
 
-    <iframe id="cityMap" src="map.html?paris"></iframe>
+    <iframe id="cityMap" data-src="map.html?paris" loading="lazy"></iframe>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const iframe = document.getElementById('cityMap');
+        if (iframe.dataset.src) {
+          iframe.src = iframe.dataset.src;
+          iframe.removeAttribute('data-src');
+        }
+        observer.disconnect(); // Stop observing once it's loaded
+      }
+    });
+  }, {
+    threshold: 0.25
+  });
+
+  observer.observe(document.getElementById('map'));
+  });
+</script>
+
   </div>
 </section>
 
@@ -401,16 +461,6 @@ footer::before {
     </div>
   </section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-  const bouton = document.getElementById("scrollButton");
-  const sectionCible = document.getElementById("contact");
-
-  bouton.addEventListener("click", () => {
-    sectionCible.scrollIntoView({ behavior: "smooth" });
-  });
-});
-  </script>
 
   <footer>
     <div class="container">
