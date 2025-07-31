@@ -227,6 +227,24 @@ footer::before {
   background-repeat: repeat-x;
 }
 
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.btn-animated {
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0; /* Sera animé jusqu'à 1 */
+}
+
+
   </style>
 </head>
 <body>
@@ -237,7 +255,7 @@ footer::before {
       <p class="subtitle">Cartographie des arbres comestibles de nos villes</p>
       <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
 
-      <a  id="scrollButton" href="#map" class="btn">Découvrir la carte</a>
+      <a  id="scrollButton" href="#" class="btn btn-animated">Découvrir la carte</a>
 <script>
 function smoothScrollTo(element, duration) {
             const targetPosition = document.getElementById(element).offsetTop;
@@ -282,8 +300,7 @@ document.getElementById("scrollButton").addEventListener("click", () => {
       <p><strong>Urbanivore</strong> est un projet visant à révéler le potentiel nourricier de nos métropoles en cartographiant les arbres comestibles accessibles dans l’espace public. Grâce aux données en Open Data et à une base de plus de 100 recettes associées à chaque essence, chacun peut réapprendre à cueillir, transformer, goûter… et mieux habiter sa ville.</p>
     </div>
   </section>
-
- <section id="map">
+<section id="map">
   <div class="container">
     <h2>Carte interactive</h2>
 
@@ -297,40 +314,166 @@ document.getElementById("scrollButton").addEventListener("click", () => {
       <button class="city-btn" onclick="setCity('rennes', this)">Rennes</button>
     </div>
 
-    <iframe id="cityMap" data-src="map.html?paris" loading="lazy"></iframe>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const iframe = document.getElementById('cityMap');
-        if (iframe.dataset.src) {
-          iframe.src = iframe.dataset.src;
-          iframe.removeAttribute('data-src');
-        }
-        observer.disconnect(); // Stop observing once it's loaded
-      }
-    });
-  }, {
-    threshold: 0.25
-  });
-
-  observer.observe(document.getElementById('map'));
-  });
-</script>
-
+    <!-- Nouvelle div englobante -->
+    <div class="map-wrapper">
+      <div class="map-overlay" id="mapOverlay">
+        <img src="img/urbanivore.webp" alt="Carte Urbanivore" class="overlay-bg" />
+        <div class="overlay-filter"></div>
+        <button class="btn" onclick="loadMap()">Afficher la carte</button>
+      </div>
+      <iframe id="cityMap" data-src="map.html?paris" loading="lazy"></iframe>
+    </div>
   </div>
 </section>
 
-<style>
-  .container iframe {
-    width: 100%;
-    height: 70vh;
-    margin-top: 10px;
-    border: none;
-    border: solid var(--accent-dark); 2px;
-    border-radius: 12px;
+    <style>
+
+
+      .map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  border-radius: 12px;
+   border: solid var(--accent-dark); 2px;
+  overflow: hidden;
+}
+
+/* Overlay */
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.map-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Overlay background */
+.overlay-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(1px);
+}
+
+/* Overlay dark filter */
+.overlay-filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+/* Overlay button */
+.map-overlay .btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  background: white;
+  color: var(--accent-dark);
+}
+
+/* iframe */
+.map-wrapper iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+  display: none;
+}
+
+.map-wrapper iframe.loaded {
+  display: block;
+}
+
+@media (min-width: 601px) {
+  .map-overlay {
+    display: none;
   }
+
+  .map-wrapper iframe {
+    display: block;
+  }
+}
+
+    </style>
+
+
+    <script>
+  function loadMap() {
+    const iframe = document.getElementById('cityMap');
+    const overlay = document.getElementById('mapOverlay');
+
+    if (iframe.dataset.src && !iframe.src) {
+      iframe.src = iframe.dataset.src;
+    }
+    iframe.classList.add('loaded');
+
+    overlay.classList.add('fade-out');
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 800); // correspond à la durée CSS
+  }
+
+  function setCity(city, button) {
+    const iframe = document.getElementById('cityMap');
+    const overlay = document.getElementById('mapOverlay');
+
+    iframe.src = `map.html?${city}`;
+    iframe.classList.add('loaded');
+
+    if (window.innerWidth <= 600 && overlay && overlay.style.display !== 'none') {
+      overlay.classList.add('fade-out');
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 800);
+    }
+
+    document.querySelectorAll('.city-btn').forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+  }
+
+  // Chargement auto sur desktop
+  if (window.innerWidth > 600) {
+    document.addEventListener('DOMContentLoaded', function () {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const iframe = document.getElementById('cityMap');
+            if (iframe.dataset.src && !iframe.src) {
+              iframe.src = iframe.dataset.src;
+              iframe.classList.add('loaded');
+            }
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.25 });
+
+      observer.observe(document.getElementById('map'));
+    });
+  }
+</script>
+
+
+
+
+
+
+<style>
 
   .city-buttons {
     margin-bottom: 1rem;
@@ -365,19 +508,7 @@ document.getElementById("scrollButton").addEventListener("click", () => {
   }
 </style>
 
-<script>
-  function setCity(city, button) {
-    const iframe = document.getElementById('cityMap');
-    iframe.src = `map.html?${city}`;
 
-    // Retirer la classe 'active' de tous les boutons
-    const buttons = document.querySelectorAll('.city-btn');
-    buttons.forEach(btn => btn.classList.remove('active'));
-
-    // Ajouter 'active' au bouton cliqué
-    button.classList.add('active');
-  }
-</script>
 
 
   <!--
