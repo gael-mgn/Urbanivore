@@ -115,6 +115,17 @@ const markers = enableClustering
   ? L.markerClusterGroup({ disableClusteringAtZoom: 15, maxClusterRadius: 50 })
   : L.layerGroup();
 
+if (window !== window.parent) {
+  map.dragging.disable();
+  map.touchZoom.disable();
+  map.doubleClickZoom.disable();
+  map.scrollWheelZoom.disable();
+  map.boxZoom.disable();
+  map.keyboard.disable();
+  if (map.tap) map.tap.disable();
+}
+
+
 fetch(root)
   .then(response => response.json())
   .then(data => {
@@ -166,6 +177,17 @@ fetch(root)
       // Retire complètement du DOM après la transition
       setTimeout(() => {
         loadingScreen.style.display = "none";
+
+        // Réactive les interactions seulement si on est dans une iframe
+        if (window !== window.parent) {
+          map.dragging.enable();
+          map.touchZoom.enable();
+          map.doubleClickZoom.enable();
+          map.scrollWheelZoom.enable();
+          map.boxZoom.enable();
+          map.keyboard.enable();
+          if (map.tap) map.tap.enable();
+        }
       }, 600); // un peu plus que 0.5s pour s’assurer que l’effet est terminé
     });
   })
