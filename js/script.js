@@ -2,45 +2,60 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const villes = {
   lyon: {
-    nom: "lyon",
+    nom: "Lyon",
     region: "auvergne-rhône-alpes",
-    coord: [45.75, 4.85]
+    coord: [45.75, 4.85],
+    src: ["Data Grand Lyon", "https://data.grandlyon.com/portail/fr/jeux-de-donnees/arbres-alignement-metropole-lyon/info"],
   },
   paris: {
-    nom: "paris",
+    nom: "Paris",
     region: "paris",
-    coord: [48.8566, 2.3522]
+    coord: [48.8566, 2.3522],
+    src: ["Paris Data", "https://opendata.paris.fr/explore/dataset/les-arbres/information/?disjunctive.espece&disjunctive.typeemplacement&disjunctive.arrondissement&disjunctive.genre&disjunctive.libellefrancais&disjunctive.varieteoucultivar&disjunctive.stadedeveloppement&disjunctive.remarquable"]
   },
   toulouse: {
-    nom: "toulouse",
+    nom: "Toulouse",
     region: "occitanie",
-    coord: [43.6045, 1.444]
+    coord: [43.6045, 1.444],
+    src: ["Open Data Toulouse Métropole", "https://data.toulouse-metropole.fr/explore/dataset/arbres-urbains/information/"]
   },
   bordeaux: {
-    nom: "bordeaux",
+    nom: "Bordeaux",
     region: "nouvelle aquitaine",
-    coord: [44.8378, -0.5792]
+    coord: [44.8378, -0.5792],
+    src: ["DataHub Bordeaux", "https://datahub.bordeaux-metropole.fr/explore/dataset/ec_arbre_p/information/?disjunctive.insee"]
   },
   grenoble: {
-    nom: "grenoble",
+    nom: "Grenoble",
     region: "auvergne-rhône-alpes",
-    coord: [45.1885, 5.7245]
+    coord: [45.1885, 5.7245],
+    src: ["Data gouv", "https://www.data.gouv.fr/datasets/arbres-grenoble/"]
+  },
+  strasbourg: {
+    nom: "Strasbourg",
+    region: "grand-est",
+    coord: [48.5734, 7.7521],
+    src: ["Open Data Strasbourg", "https://data.strasbourg.eu/explore/dataset/patrimoine_arbore/table/?disjunctive.genre&sort=genre"]
   },
   rennes: {
-    nom: "rennes",
+    nom: "Rennes",
     region: "bretagne",
-    coord: [48.1147, -1.6794]
+    coord: [48.1147, -1.6794],
+    src: ["Open Data Rennes", "https://data.rennesmetropole.fr/explore/dataset/arbre/information/"]
   }
 };
 
 const queryString = window.location.search; // Ex: "?lyon"
 let ville = queryString && queryString !== "?" ? queryString.substring(1) : "";
-
+ville = ville.toLowerCase();
 // Vérifie si la ville est connue, sinon remplace par "paris"
 if (!villes.hasOwnProperty(ville)) {
   ville = "paris";
 }
 const root = "https://urbanivore.fr/data/" + ville + ".geojson";
+document.getElementById('ville_src').textContent = villes[ville].nom;
+document.getElementById('data_src').innerText = villes[ville].src[0];
+document.getElementById('data_src').href = villes[ville].src[1];
 
 
 if (window !== window.parent) {
@@ -91,7 +106,7 @@ function debounce(func, wait = 150) {
   };
 }
 
-const coords = villes[ville].coord || [48.8566, 2.3522]; // fallback : Paris
+const coords = villes[ville].coord;
 
 const map = L.map("map", {
   zoomControl: false

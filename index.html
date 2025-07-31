@@ -54,11 +54,10 @@
     }
 
     header.hero {
-      
-background-image: linear-gradient(rgba(107, 142, 35, 0.4), rgba(162, 195, 109, 0.4)), url('img/urbanivore.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+      background-image: linear-gradient(rgba(107, 142, 35, 0.4), rgba(162, 195, 109, 0.4)), url('img/urbanivore.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       color: white;
       text-align: center;
       padding: 5rem 1rem;
@@ -239,44 +238,36 @@ footer::before {
       <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
 
       <a  id="scrollButton" href="#map" class="btn">Découvrir la carte</a>
-
 <script>
-function scrollToElement(targetId, duration = 800) {
-  const target = document.getElementById(targetId);
-  if (!target) return;
+function smoothScrollTo(element, duration) {
+            const targetPosition = document.getElementById(element).offsetTop;
+            const startPosition = window.scrollY;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
 
-  const start = window.scrollY || window.pageYOffset;
-  const end = target.getBoundingClientRect().top + start;
-  const distance = end - start;
+            function animationStep(currentTime) {
+                if (!startTime) startTime = currentTime;
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
 
-  let startTime = null;
+                const easeInOut = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
 
-  // Fonction easeInOutQuart : démarre doucement, accélère, puis ralentit doucement
-  const easeInOutQuart = (t) =>
-    t < 0.5
-      ? 8 * t * t * t * t
-      : 1 - Math.pow(-2 * t + 2, 4) / 2;
+                window.scrollTo(0, startPosition + distance * easeInOut);
 
-  function animationStep(currentTime) {
-    if (!startTime) startTime = currentTime;
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const easedProgress = easeInOutQuart(progress);
+                if (elapsedTime < duration) {
+                    requestAnimationFrame(animationStep);
+                }
+            }
 
-    window.scrollTo(0, start + distance * easedProgress);
-
-    if (elapsed < duration) {
-      requestAnimationFrame(animationStep);
-    }
-  }
-
-  requestAnimationFrame(animationStep);
-}
-
+            requestAnimationFrame(animationStep);
+        }
 document.getElementById("scrollButton").addEventListener("click", () => {
-  scrollToElement("map", 1000); // durée personnalisable
+  smoothScrollTo("map", 800); // Ajuste selon besoin
 });
 </script>
+
 
       <!--
       <a href="map.html?toulouse" class="btn" target="_blank">Toulouse</a>
@@ -298,8 +289,12 @@ document.getElementById("scrollButton").addEventListener("click", () => {
 
     <div class="city-buttons">
       <button class="city-btn active" onclick="setCity('paris', this)">Paris</button>
-      <button class="city-btn" onclick="setCity('bordeaux', this)">Bordeaux</button>
       <button class="city-btn" onclick="setCity('toulouse', this)">Toulouse</button>
+      <button class="city-btn" onclick="setCity('lyon', this)">Lyon</button>
+      <button class="city-btn" onclick="setCity('bordeaux', this)">Bordeaux</button>
+      <button class="city-btn" onclick="setCity('grenoble', this)">Grenoble</button>
+      <button class="city-btn" onclick="setCity('strasbourg', this)">Strasbourg</button>
+      <button class="city-btn" onclick="setCity('rennes', this)">Rennes</button>
     </div>
 
     <iframe id="cityMap" data-src="map.html?paris" loading="lazy"></iframe>
@@ -423,14 +418,20 @@ document.getElementById("scrollButton").addEventListener("click", () => {
       <p>Les cartes ont été créées à partir de données Open Data fournies par les métropoles et collectivités. Le traitement a été réalisé en JavaScript (Leaflet, MarkerCluster), et le code source est librement accessible.</p>
       <ul>
         <li><a href="https://github.com/gael-mgn/Urbanivore" target="_blank">Code source (GitHub)</a></li>
-        <li><a href="#">Données utilisées</a></li>
-        <li><a href="#">Documentation technique</a></li>
+        <li><a href="https://github.com/gael-mgn/Urbanivore/tree/main/data">Données utilisées (post-traitement)</a></li>
+        <li><a href="mailto:contact@gael-maignan.fr">Documentation technique (sur demande)</a></li>
       </ul>
 
       <h3>Sources</h3>
       <ul>
         <li>Paris : <a href="https://opendata.paris.fr/explore/dataset/les-arbres/export/?disjunctive.espece&disjunctive.typeemplacement&disjunctive.arrondissement&disjunctive.genre&disjunctive.libellefrancais&disjunctive.varieteoucultivar&disjunctive.stadedeveloppement&disjunctive.remarquable" target="_blank">Arbres - Paris Data - Mairie de Paris</a></li>
-        <li>Toulouse : <a href="" target="_blank">Arbres urbains - Open Data Toulouse Métropole</a></li>
+        <li>Toulouse : <a href="https://data.toulouse-metropole.fr/explore/dataset/arbres-urbains/information/" target="_blank">Arbres urbains - Open Data Toulouse Métropole</a></li>
+        <li>Lyon : <a href="https://data.grandlyon.com/portail/fr/jeux-de-donnees/arbres-alignement-metropole-lyon/info" target="_blank">Arbres d'alignement de la Métropole de Lyon - DataGrandLyon</a></li>
+        <li>Bordeaux : <a href="https://datahub.bordeaux-metropole.fr/explore/dataset/ec_arbre_p/information/?disjunctive.insee" target="_blank">Patrimoine arboré de Bordeaux Métropole — DataHub</a></li>
+        <li>Grenoble : <a href="https://www.data.gouv.fr/datasets/arbres-grenoble/" target="_blank">Arbres de la Ville de Grenoble</a></li>
+        <li>Rennes : <a href="https://data.rennesmetropole.fr/explore/dataset/arbre/information/" target="_blank">Arbres dans Rennes Métropole - Open Data Rennes</a></li>
+        <li>Strasbourg : <a href="https://data.strasbourg.eu/explore/dataset/patrimoine_arbore/" target="_blank">Patrimoine arboré — Portail Open Data Strasbourg</a></li>
+
         <!--<li>Rennes : <a href="https://data.rennesmetropole.fr/explore/dataset/arbre/" target="_blank">Arbres dans Rennes Métropole - Open Data Rennes</a></li>
         <li> : <a href="" target="_blank"></a></li>
         <li> : <a href="" target="_blank"></a></li>
