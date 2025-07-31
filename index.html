@@ -54,7 +54,7 @@
     }
 
     header.hero {
-      background: var(--accent-color);
+      background: linear-gradient(135deg, #6b8e23, #a2c36d);
       color: white;
       text-align: center;
       padding: 5rem 1rem;
@@ -73,27 +73,29 @@
 
     .hero .description {
       margin: 1.5rem 0;
-      font-family: var(--font-alt);
+      font-style: italic;
     }
 
     .btn {
-      background: white;
-      color: var(--accent-color);
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 999px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-      display: inline-block;
-      margin: 5px;
-    }
+  background: white;
+  color: var(--accent-dark);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  display: inline-block;
+  margin: 0.4rem;
+}
 
-    .btn:hover {
-      background: #f2f2f2;
-    }
+.btn:hover {
+  background: #f3f3f3;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
 
     section {
       padding: 1rem 0;
@@ -103,6 +105,9 @@
       font-size: 2rem;
       color: var(--accent-dark);
       margin-bottom: 1rem;
+    }
+    section p {
+      text-align: justify;
     }
 
     .grid {
@@ -134,8 +139,7 @@
     }
 
     blockquote {
-      font-family: var(--font-alt);
-      font-size: 1.3rem;
+      font-style: italic;
       color: #555;
       border-left: 4px solid var(--accent-color);
       padding-left: 1rem;
@@ -191,6 +195,9 @@
       section h2 {
         font-size: 1.5rem;
       }
+      section p {
+        text-align: left;
+      }
     }
 
     body::before {
@@ -207,15 +214,7 @@
   z-index: -1;
 }
 
-section::after {
-  content: "";
-  display: block;
-  height: 40px;
-  background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="40" xmlns="http://www.w3.org/2000/svg"><path d="M0 0 Q50 40 100 0 T200 0 T300 0 T400 0 T500 0 T600 0 T700 0" stroke="%236b8e23" stroke-width="2" fill="transparent"/></svg>');
-  opacity: 0.1;
-  background-repeat: repeat-x;
-  background-position: bottom;
-}
+
 
 footer::before {
   content: "";
@@ -242,7 +241,7 @@ footer::before {
 
   <section class="intro">
     <div class="container">
-      <h2>Introduction du projet</h2>
+      <h2>La ville au bord des lèvres</h2>
       <p><strong>Urbanivore</strong> est un projet visant à révéler le potentiel nourricier de nos métropoles en cartographiant les arbres comestibles accessibles dans l’espace public. Grâce aux données en Open Data et à une base de plus de 100 recettes associées à chaque essence, chacun peut réapprendre à cueillir, transformer, goûter… et mieux habiter sa ville.</p>
     </div>
   </section>
@@ -275,7 +274,7 @@ footer::before {
       <p>Ce projet cartographique vise à réactiver des savoirs populaires en voie de disparition, à encourager une réappropriation collective des usages comestibles de la nature en ville. Cueillir, transformer, partager : autant de gestes simples qui renouent avec une écologie du quotidien et une autonomie alimentaire à l’échelle locale.</p>
       <p>En valorisant ces communs végétaux, Urbanivore questionne aussi la place du vivant dans l’espace urbain : quels arbres plantons-nous, pour qui, pourquoi ?<br>
       Il invite à repenser nos rapports à la ville à travers une biodiversité cultivée, une saisonnalité respectée, et des usages plus sensibles, plus durables, plus libres de l’espace public.</p>
-      <blockquote>« On ne connaît bien que les choses qu’on apprivoise. » — Antoine de Saint-Exupéry</blockquote>
+      <blockquote>« Faire aimer à planter des arbres. » — Jean Giono</blockquote>
     </div>
   </section>
 
@@ -306,15 +305,15 @@ footer::before {
   <section class="equipe">
     <div class="container">
       <h2>À propos</h2>
-      <p>Je m'appelle <a href="https://www.linkedin.com/in/gael-maignan">Gaël Maignan</a>, étudiant à l'École des Ingénieurs de la Ville de Paris, passionné par les formes sensibles de réappropriation de la ville. Je développe <strong>Urbanivore</strong> en lien avec mes engagements pour une ville plus comestible, plus partagée, plus durable.</p>
+      <p>Je suis <strong><a href="https://www.linkedin.com/in/gael-maignan">Gaël Maignan</a></strong>, étudiant à l'École des Ingénieurs de la Ville de Paris, passionné par les formes sensibles de réappropriation de la ville. Je développe <strong>Urbanivore</strong> en lien avec mes engagements pour une ville plus comestible, plus partagée, plus durable.</p>
     </div>
   </section>
 
-  <section class="contact">
+  <section class="contact" style="margin-bottom: 4rem;">
     <div class="container">
       <h2>Contribuer / Me contacter</h2>
       <p>Pour toute question ou suggestion, n'hésitez pas à me contacter à l'adresse : <a href="mailto:contact@gael-maignan.fr">contact@gael-maignan.fr</a></p>
-      <form>
+      <form style="display:none;">
         <input type="text" placeholder="Votre nom" required />
         <input type="email" placeholder="Votre email" required />
         <textarea placeholder="Votre message ou contribution…"></textarea>
