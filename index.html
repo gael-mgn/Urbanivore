@@ -6,6 +6,85 @@
   <title>Urbanivore – Cartographie des arbres comestibles</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:ital,wght@1,600&display=swap" rel="stylesheet">
 
+  <script>
+    function smoothScrollTo(element, duration) {
+            const targetPosition = document.getElementById(element).offsetTop;
+            const startPosition = window.scrollY;
+            const distance = targetPosition - startPosition;
+            let startTime = null;
+
+            function animationStep(currentTime) {
+                if (!startTime) startTime = currentTime;
+                const elapsedTime = currentTime - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+
+                const easeInOut = progress < 0.5
+                    ? 4 * progress * progress * progress
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+                window.scrollTo(0, startPosition + distance * easeInOut);
+
+                if (elapsedTime < duration) {
+                    requestAnimationFrame(animationStep);
+                }
+            }
+
+            requestAnimationFrame(animationStep);
+        }
+
+
+    function loadMap() {
+  const iframe = document.getElementById('cityMap');
+  const overlay = document.getElementById('mapOverlay');
+
+  if (iframe.dataset.src && !iframe.src) {
+    iframe.src = iframe.dataset.src;
+  }
+  iframe.classList.add('loaded');
+  overlay?.classList.add('fade-out');
+
+  setTimeout(() => {
+    overlay.style.display = 'none';
+  }, 800);
+}
+
+function setCity(city, button) {
+  const iframe = document.getElementById('cityMap');
+  const overlay = document.getElementById('mapOverlay');
+
+  iframe.src = `map.html?${city}`;
+  iframe.classList.add('loaded');
+
+  if (window.innerWidth <= 600 && overlay?.style.display !== 'none') {
+    overlay.classList.add('fade-out');
+    setTimeout(() => {
+      overlay.style.display = 'none';
+    }, 800);
+  }
+
+  document.querySelectorAll('.city-btn').forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.innerWidth > 600) {
+    const iframe = document.getElementById('cityMap');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && iframe.dataset.src && !iframe.src) {
+          iframe.src = iframe.dataset.src;
+          iframe.classList.add('loaded');
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.25 });
+
+    observer.observe(document.getElementById('map'));
+  }
+});
+
+  </script>
+
   <meta name="robots" content="index, follow">
 
   <meta name="description" content="Urbanivore est un projet visant à révéler le potentiel nourricier de nos métropoles en cartographiant les arbres comestibles accessibles dans l’espace public.">
@@ -258,35 +337,7 @@ footer::before {
 
       <a  id="scrollButton" href="#" class="btn btn-animated">Découvrir la carte</a>
       <div class="scroll-btn" onclick="smoothScrollTo('map', 1000)">sssssss</div>
-<script>
-function smoothScrollTo(element, duration) {
-            const targetPosition = document.getElementById(element).offsetTop;
-            const startPosition = window.scrollY;
-            const distance = targetPosition - startPosition;
-            let startTime = null;
 
-            function animationStep(currentTime) {
-                if (!startTime) startTime = currentTime;
-                const elapsedTime = currentTime - startTime;
-                const progress = Math.min(elapsedTime / duration, 1);
-
-                const easeInOut = progress < 0.5
-                    ? 4 * progress * progress * progress
-                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-                window.scrollTo(0, startPosition + distance * easeInOut);
-
-                if (elapsedTime < duration) {
-                    requestAnimationFrame(animationStep);
-                }
-            }
-
-            requestAnimationFrame(animationStep);
-        }
-document.getElementById("scrollButton").addEventListener("click", () => {
-  smoothScrollTo("map", 800); // Ajuste selon besoin
-});
-</script>
 
 
       <!--
@@ -414,63 +465,6 @@ document.getElementById("scrollButton").addEventListener("click", () => {
 }
 
     </style>
-
-
-    <script>
-  function loadMap() {
-    const iframe = document.getElementById('cityMap');
-    const overlay = document.getElementById('mapOverlay');
-
-    if (iframe.dataset.src && !iframe.src) {
-      iframe.src = iframe.dataset.src;
-    }
-    iframe.classList.add('loaded');
-
-    overlay.classList.add('fade-out');
-    setTimeout(() => {
-      overlay.style.display = 'none';
-    }, 800); // correspond à la durée CSS
-  }
-
-  function setCity(city, button) {
-    const iframe = document.getElementById('cityMap');
-    const overlay = document.getElementById('mapOverlay');
-
-    iframe.src = `map.html?${city}`;
-    iframe.classList.add('loaded');
-
-    if (window.innerWidth <= 600 && overlay && overlay.style.display !== 'none') {
-      overlay.classList.add('fade-out');
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, 800);
-    }
-
-    document.querySelectorAll('.city-btn').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-  }
-
-  // Chargement auto sur desktop
-  if (window.innerWidth > 600) {
-    document.addEventListener('DOMContentLoaded', function () {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const iframe = document.getElementById('cityMap');
-            if (iframe.dataset.src && !iframe.src) {
-              iframe.src = iframe.dataset.src;
-              iframe.classList.add('loaded');
-            }
-            observer.disconnect();
-          }
-        });
-      }, { threshold: 0.25 });
-
-      observer.observe(document.getElementById('map'));
-    });
-  }
-</script>
-
 
 
 

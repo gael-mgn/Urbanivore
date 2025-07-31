@@ -1,29 +1,3 @@
-function smoothScrollTo(element, duration) {
-            const targetPosition = document.getElementById(element).offsetTop;
-            const startPosition = window.scrollY;
-            const distance = targetPosition - startPosition;
-            let startTime = null;
-
-            function animationStep(currentTime) {
-                if (!startTime) startTime = currentTime;
-                const elapsedTime = currentTime - startTime;
-                const progress = Math.min(elapsedTime / duration, 1);
-
-                const easeInOut = progress < 0.5
-                    ? 4 * progress * progress * progress
-                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-
-                window.scrollTo(0, startPosition + distance * easeInOut);
-
-                if (elapsedTime < duration) {
-                    requestAnimationFrame(animationStep);
-                }
-            }
-
-            requestAnimationFrame(animationStep);
-        }
-
-
 document.addEventListener('DOMContentLoaded', function() {
 
 const villes = {
