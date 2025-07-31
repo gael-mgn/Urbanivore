@@ -127,7 +127,7 @@ let enableClustering = window.innerWidth < 768 ? true : true;
 const allMarkers = [];
 let geoJsonData = null;
 const markers = enableClustering
-  ? L.markerClusterGroup({ disableClusteringAtZoom: 15, maxClusterRadius: 50, spiderfyOnMaxZoom: false, showCoverageOnHover: false })
+  ? L.markerClusterGroup({ disableClusteringAtZoom: 15, maxClusterRadius: 100, spiderfyOnMaxZoom: false, showCoverageOnHover: false })
   : L.layerGroup();
 
 if (window !== window.parent) {
