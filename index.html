@@ -16,9 +16,7 @@
   <link rel="icon" href="img/logo.png" type="image/png">
 
   <style>
-    html {
-  scroll-behavior: smooth;
-}
+
     :root {
       --bg-color: #fdfaf3;
       --accent-color: #6b8e23;
@@ -259,6 +257,7 @@ footer::before {
       <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
 
       <a  id="scrollButton" href="#" class="btn btn-animated">Découvrir la carte</a>
+      <div class="scroll-btn" onclick="smoothScrollTo('map', 1000)">sssssss</div>
 <script>
 function smoothScrollTo(element, duration) {
             const targetPosition = document.getElementById(element).offsetTop;
