@@ -253,7 +253,7 @@ footer::before {
     <div class="container">
       <h1>Urbanivore</h1>
       <p class="subtitle">Cartographie des arbres comestibles de nos villes</p>
-      <p class="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
+      <p class="description" id="description">Paris, Lyon, Bordeaux, Grenoble… Des milliers d’arbres pour des centaines de recettes à portée de main.</p>
 
       <a  id="scrollButton" href="#" class="btn btn-animated">Découvrir la carte</a>
 <script>
@@ -615,6 +615,8 @@ document.getElementById("scrollButton").addEventListener("click", () => {
       if (cityButtons) {
         cityButtons.style.display = "none";
       }
+
+      document.getElementById("description").innerText = "Des milliers d’arbres pour des centaines de recettes à portée de main !";
 
       // Définir la ville par défaut dans l'iframe
       const iframe = document.getElementById("cityMap");
