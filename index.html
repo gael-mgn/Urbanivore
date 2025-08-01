@@ -554,29 +554,23 @@ document.getElementById("scrollButton").addEventListener("click", () => {
       </ul>
 
       <h3>Sources</h3>
-      <ul>
-        <li>Paris : <a href="https://opendata.paris.fr/explore/dataset/les-arbres/export/?disjunctive.espece&disjunctive.typeemplacement&disjunctive.arrondissement&disjunctive.genre&disjunctive.libellefrancais&disjunctive.varieteoucultivar&disjunctive.stadedeveloppement&disjunctive.remarquable" target="_blank">Arbres - Paris Data - Mairie de Paris</a></li>
-        <li>Toulouse : <a href="https://data.toulouse-metropole.fr/explore/dataset/arbres-urbains/information/" target="_blank">Arbres urbains - Open Data Toulouse Métropole</a></li>
-        <li>Lyon : <a href="https://data.grandlyon.com/portail/fr/jeux-de-donnees/arbres-alignement-metropole-lyon/info" target="_blank">Arbres d'alignement de la Métropole de Lyon - DataGrandLyon</a></li>
-        <li>Bordeaux : <a href="https://datahub.bordeaux-metropole.fr/explore/dataset/ec_arbre_p/information/?disjunctive.insee" target="_blank">Patrimoine arboré de Bordeaux Métropole — DataHub</a></li>
-        <li>Grenoble : <a href="https://www.data.gouv.fr/datasets/arbres-grenoble/" target="_blank">Arbres de la Ville de Grenoble</a></li>
-        <li>Rennes : <a href="https://data.rennesmetropole.fr/explore/dataset/arbre/information/" target="_blank">Arbres dans Rennes Métropole - Open Data Rennes</a></li>
-        <li>Strasbourg : <a href="https://data.strasbourg.eu/explore/dataset/patrimoine_arbore/" target="_blank">Patrimoine arboré — Portail Open Data Strasbourg</a></li>
-
-        <!--<li>Rennes : <a href="https://data.rennesmetropole.fr/explore/dataset/arbre/" target="_blank">Arbres dans Rennes Métropole - Open Data Rennes</a></li>
-        <li> : <a href="" target="_blank"></a></li>
-        <li> : <a href="" target="_blank"></a></li>
-        <li> : <a href="" target="_blank"></a></li>
-        <li> : <a href="" target="_blank"></a></li>
-        <li> : <a href="" target="_blank"></a></li>-->
+      <ul id="sources-list">
+        <li id="source-paris">Paris : <a href="https://opendata.paris.fr/explore/dataset/les-arbres/export/..." target="_blank">Arbres - Paris Data - Mairie de Paris</a></li>
+        <li id="source-toulouse">Toulouse : <a href="https://data.toulouse-metropole.fr/explore/dataset/arbres-urbains/information/" target="_blank">Arbres urbains - Open Data Toulouse Métropole</a></li>
+        <li id="source-lyon">Lyon : <a href="https://data.grandlyon.com/portail/fr/jeux-de-donnees/arbres-alignement-metropole-lyon/info" target="_blank">Arbres d'alignement de la Métropole de Lyon - DataGrandLyon</a></li>
+        <li id="source-bordeaux">Bordeaux : <a href="https://datahub.bordeaux-metropole.fr/explore/dataset/ec_arbre_p/information/" target="_blank">Patrimoine arboré de Bordeaux Métropole — DataHub</a></li>
+        <li id="source-grenoble">Grenoble : <a href="https://www.data.gouv.fr/datasets/arbres-grenoble/" target="_blank">Arbres de la Ville de Grenoble</a></li>
+        <li id="source-rennes">Rennes : <a href="https://data.rennesmetropole.fr/explore/dataset/arbre/information/" target="_blank">Arbres dans Rennes Métropole - Open Data Rennes</a></li>
+        <li id="source-strasbourg">Strasbourg : <a href="https://data.strasbourg.eu/explore/dataset/patrimoine_arbore/" target="_blank">Patrimoine arboré — Portail Open Data Strasbourg</a></li>
       </ul>
+
     </div>
   </section>
 
   <section class="equipe">
     <div class="container">
       <h2>À propos</h2>
-      <p>Je suis <strong><a href="https://www.linkedin.com/in/gael-maignan">Gaël Maignan</a></strong>, étudiant à l'École des Ingénieurs de la Ville de Paris, passionné par les formes sensibles de réappropriation de la ville. Je développe <strong>Urbanivore</strong> en lien avec mes engagements pour une ville plus comestible, plus partagée, plus durable.</p>
+      <p>Je suis <strong><a href="https://www.linkedin.com/in/gael-maignan" target="_blank">Gaël Maignan</a></strong>, étudiant à l'École des Ingénieurs de la Ville de Paris, passionné par les formes sensibles de réappropriation de la ville. Je développe <strong>Urbanivore</strong> en lien avec mes engagements pour une ville plus comestible, plus partagée, plus durable.</p>
     </div>
   </section>
 
@@ -608,3 +602,48 @@ document.getElementById("scrollButton").addEventListener("click", () => {
 
 </body>
 </html>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const ville = params.get("ville");
+
+    if (ville) {
+      // Cacher les boutons de sélection des villes
+      const cityButtons = document.querySelector(".city-buttons");
+      if (cityButtons) {
+        cityButtons.style.display = "none";
+      }
+
+      // Définir la ville par défaut dans l'iframe
+      const iframe = document.getElementById("cityMap");
+      if (iframe) {
+        //iframe.src = `map.html?${ville}`;
+        //iframe.classList.add("loaded");
+        iframe.setAttribute("data-src", `map.html?${ville}`);
+      }
+
+      // Affiche uniquement la source de la ville sélectionnée
+      const sources = document.querySelectorAll("#sources-list li");
+      sources.forEach(source => {
+        source.style.display = "none";
+      });
+
+      const selectedSource = document.getElementById(`source-${ville.toLowerCase()}`);
+      if (selectedSource) {
+        selectedSource.style.display = "list-item";
+      }
+
+
+      // Mettre en surbrillance le bon bouton (optionnel, utile si visible)
+      document.querySelectorAll('.city-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.toLowerCase() === ville.toLowerCase()) {
+          btn.classList.add('active');
+        }
+      });
+    }
+  });
+
+</script>
